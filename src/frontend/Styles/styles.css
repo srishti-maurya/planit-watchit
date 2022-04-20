@@ -8,8 +8,9 @@ body {
   overflow-x: hidden;
 }
 
-html {
-  background-color: var(--color-background-600);
+.btn:hover {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 /* containers */
@@ -41,7 +42,6 @@ html {
 .videolist-container {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
   align-items: center;
 }
 
@@ -67,9 +67,15 @@ html {
 }
 
 .chip {
-  border: 2px solid var(--color-primary-400);
+  border: 1px solid var(--color-secondary-400);
   border-radius: 20px;
   padding: 5px 12px;
+}
+
+.loader {
+  display: block;
+  margin: auto;
+  width: 20%;
 }
 
 /* nav */
@@ -98,6 +104,7 @@ html {
 
 .card-container-vertical {
   width: 250px;
+  cursor: pointer;
 }
 
 .card-container-vertical:hover {

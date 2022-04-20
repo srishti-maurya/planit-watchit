@@ -1,15 +1,21 @@
 import React from "react";
-import { Topbar, Sidebar, VideoList, Nav } from "../../Components";
-
+import { Topbar, VideoList } from "../../Components";
+import loader from "../../Assests/loader/loader.svg";
+import { useData } from "../../Contexts/data-context";
 export function Home() {
+  const { isLoader } = useData();
   return (
     <>
-      <div className="home-container">
-        <Topbar />
-        <div className="videolist-container">
-          <VideoList />
+      {isLoader ? (
+        <img src={loader} alt="loader" className="loader" />
+      ) : (
+        <div className="home-container">
+          <Topbar />
+          <div className="videolist-container">
+            <VideoList />
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

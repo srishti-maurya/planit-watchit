@@ -10,7 +10,7 @@ export function Nav() {
           <img src={logo} alt="logo" className="logo" />
         </Link>
         <div className="navigation-tools">
-          <button className="btn btn-color-text-primary round-pill">
+          <button className="btn btn-sm color-primary-outline chip">
             Login
           </button>
         </div>

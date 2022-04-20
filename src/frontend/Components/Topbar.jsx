@@ -6,7 +6,10 @@ export function Topbar() {
   return (
     <div className="topbar-container">
       {category.map((ele) => (
-        <button className="btn btn-sm color-primary-outline chip" key={ele._id}>
+        <button
+          className="btn btn-sm color-secondary-outline chip"
+          key={ele._id}
+        >
           {ele.categoryName}
         </button>
       ))}

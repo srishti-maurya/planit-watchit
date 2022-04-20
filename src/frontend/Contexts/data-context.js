@@ -8,15 +8,17 @@ const useData = () => useContext(DataContext);
 function DataProvider({ children }) {
   const [videolist, setVideolist] = useState([]);
   const [category, setCategory] = useState([]);
+  const [isLoader, setIsLoader] = useState(true);
 
   useEffect(
     () =>
       (async function () {
         try {
-          const response = await axios.get("/api/videos");
-          setVideolist(response.data.videos);
           const categoryResponse = await axios.get("/api/categories");
+          const response = await axios.get("/api/videos");
+          setIsLoader(false);
           setCategory(categoryResponse.data.categories);
+          setVideolist(response.data.videos);
         } catch (error) {
           console.error(error);
         }
@@ -26,7 +28,14 @@ function DataProvider({ children }) {
 
   return (
     <DataContext.Provider
-      value={{ videolist, setVideolist, category, setCategory }}
+      value={{
+        videolist,
+        setVideolist,
+        category,
+        setCategory,
+        isLoader,
+        setIsLoader,
+      }}
     >
       {children}
     </DataContext.Provider>
