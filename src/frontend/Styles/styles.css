@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700&display=swap");
+/* global */
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.btn:hover {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+/* containers */
+
+.page-container {
+  display: flex;
+}
+
+.home-container {
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  width: 15rem;
+}
+
+.topbar-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.videolist-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.navigation-container {
+  width: inherit;
+  box-shadow: var(--nav-shadow);
+  background-color: var(--color-background-500);
+}
+
+/* utils */
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.margin-left-sm {
+  margin-left: 5px;
+}
+
+.margin-top-md {
+  margin-top: 20px;
+}
+
+.chip {
+  border: 1px solid var(--color-secondary-400);
+  border-radius: 20px;
+  padding: 5px 12px;
+}
+
+.loader {
+  display: block;
+  margin: auto;
+  width: 20%;
+}
+
+/* nav */
+
+.logo {
+  height: 60px;
+}
+
+/* sidebar */
+
+.aside-link {
+  color: var(--color-dark-600);
+  padding: 0.8rem 1rem;
+}
+
+.active {
+  color: var(--color-primary-400);
+  font-weight: 600;
+  background-color: var(--color-secondary-200);
+  padding: 0.8rem 1rem;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+/* videocard */
+
+.card-container-vertical {
+  width: 250px;
+  cursor: pointer;
+}
+
+.card-container-vertical:hover {
+  box-shadow: var(--color-shadow);
+}
+
+.card-body-vertical {
+  display: flex;
+  align-items: center;
+}
