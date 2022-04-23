@@ -1,6 +1,6 @@
 import React from "react";
 import { Topbar, VideoList } from "../../Components";
-import loader from "../../Assests/loader/loader.svg";
+import loader from "../../Assests/svg/loader.svg";
 import { useData } from "../../Contexts/data-context";
 export function Home() {
   const { isLoader } = useData();
