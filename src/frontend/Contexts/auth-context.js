@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { successToast } from "../Utils/toasts";
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
@@ -17,6 +18,7 @@ export function AuthProvider({ children }) {
   const logoutHandler = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("isLoggedIn");
+    successToast("Logout successful");
     setIsLoggedIn(false);
     navigate("/logout");
   };
@@ -31,6 +33,7 @@ export function AuthProvider({ children }) {
       const { data } = await loginRequest(loginInput);
       localStorage.setItem("token", JSON.stringify(data.encodedToken));
       localStorage.setItem("isLoggedIn", JSON.stringify(true));
+      successToast("Login successful");
       setToken(data.encodedToken);
       setIsLoggedIn(true);
       navigate("/");
@@ -50,6 +53,7 @@ export function AuthProvider({ children }) {
       const { data } = await signupRequest(signupInput);
       localStorage.setItem("token", JSON.stringify(data.encodedToken));
       localStorage.setItem("isLoggedIn", JSON.stringify(true));
+      successToast("Signup successful");
       setToken(data.encodedToken);
       setIsLoggedIn(true);
       navigate("/");

@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700&display=swap");
 /* global */
+:root {
+  --color-box-shadow: 0 0 4px rgb(0 0 0 / 40%);
+}
+
 * {
   font-family: "Poppins", sans-serif;
 }
@@ -47,7 +51,7 @@ body {
 
 .navigation-container {
   width: inherit;
-  box-shadow: 0 0 4px rgb(0 0 0 / 40%);
+  box-shadow: var(--color-box-shadow);
   background-color: var(--color-background-500);
 }
 
@@ -93,6 +97,10 @@ body {
   margin: auto;
 }
 
+.margin-auto {
+  margin: auto;
+}
+
 /* nav */
 
 .logo {
@@ -122,13 +130,40 @@ body {
   cursor: pointer;
 }
 
-.card-container-vertical:hover {
-  box-shadow: var(--color-shadow);
-}
-
 .card-body-vertical {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.thumbnail-container {
+  position: relative;
+}
+
+.dots-container {
+  position: absolute;
+  bottom: -40px;
+  right: 0px;
+}
+
+.dropdown-container {
+  position: absolute;
+  bottom: -70px;
+  right: 5px;
+  background-color: var(--color-background-500);
+  font-size: 12px;
+  padding: 0.5rem;
+  width: 200px;
+  z-index: 2;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.dropdown-wrapper {
+  margin: 8px;
+}
+
+.dropdown-wrapper:hover {
+  color: var(--color-primary-400);
 }
 
 /* auth */
