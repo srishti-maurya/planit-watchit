@@ -1,9 +1,9 @@
 import React from "react";
 import { Topbar, VideoList } from "../../Components";
-import loader from "../../Assests/loader/loader.svg";
+import loader from "../../Assests/svg/loader.svg";
 import { useData } from "../../Contexts/data-context";
 export function Home() {
-  const { isLoader } = useData();
+  const { isLoader, state } = useData();
   return (
     <>
       {isLoader ? (
@@ -12,7 +12,7 @@ export function Home() {
         <div className="home-container">
           <Topbar />
           <div className="videolist-container">
-            <VideoList />
+            <VideoList list={state.videolist} />
           </div>
         </div>
       )}

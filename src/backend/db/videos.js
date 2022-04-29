@@ -16,17 +16,6 @@ export const videos = [
     category: "audiobook",
   },
   {
-    _id: "ndWTAstj9-Y",
-    title: "Audiobook: The Monk Who Sold His Ferrari",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    creator: "Reader Literature",
-    creatorId:
-      "AKedOLTGCsscfQBLLwWZl_zjP1U1arMRNU6MVt69Uig2Ew=s176-c-k-c0x00ffffff-no-rj",
-    views: "1,355,115",
-    category: "audiobook",
-  },
-  {
     _id: "zJiKc_2h7a0",
     title: "Book Summary: Atomic Habits by James Clear",
     description:
@@ -171,8 +160,7 @@ export const videos = [
   },
   {
     _id: "vGCpH6oGUP4",
-    title:
-      "The Monk Who Sold His Ferrari by Robin Sharma Audiobook | Book Summary",
+    title: "The Monk Who Sold His Ferrari by Robin Sharma Audiobook",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     creator: "Readers Books Club",
@@ -183,7 +171,7 @@ export const videos = [
   },
   {
     _id: "O8vsntvRIK8",
-    title: "Summary of Rich Dad, Poor Dad by Robert T. Kiyosaki | Audiobook",
+    title: "Summary of Rich Dad, Poor Dad by Robert T. Kiyosaki",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     creator: "QuickRead",
@@ -194,7 +182,7 @@ export const videos = [
   },
   {
     _id: "lVXzJvEKfBk",
-    title: "Summary of Good Vibes, Good Life by Vex King | Audiobook",
+    title: "Summary of Good Vibes, Good Life by Vex King",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     creator: "QuickRead",
@@ -205,7 +193,7 @@ export const videos = [
   },
   {
     _id: "H0-n6YEGmJk",
-    title: "Summary of Life’s Amazing Secrets by Gaur Gopal Das | Audiobook",
+    title: "Summary of Life’s Amazing Secrets by Gaur Gopal Das",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     creator: "QuickRead",
@@ -271,7 +259,7 @@ export const videos = [
   },
   {
     _id: "jEpWYkUCL44",
-    title: "The Benefits of Reading | Ella Lee | TEDxYouth@MBJH",
+    title: "The Benefits of Reading | Ella Lee",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     creator: "TEDx Talks",
@@ -281,11 +269,22 @@ export const videos = [
     category: "benefits",
   },
   {
+    _id: "ndWTAstj9-Y",
+    title: "Audiobook: The Monk Who Sold His Ferrari",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    creator: "Reader Literature",
+    creatorId:
+      "AKedOLTGCsscfQBLLwWZl_zjP1U1arMRNU6MVt69Uig2Ew=s176-c-k-c0x00ffffff-no-rj",
+    views: "1,355,115",
+    category: "audiobook",
+  },
+  {
     _id: "e46AGbBctQk",
     title: "7 Scientific Benefits Of Reading Books",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    creator: "Bro Lessons - Life Tips And Book Summaries",
+    creator: "Bro Lessons ",
     creatorId:
       "AKedOLSYVQFnt-9Bb_HeP45147fxAQ4U2jbEuW9V-7FDvQ=s176-c-k-c0x00ffffff-no-rj",
     views: "110,439",
@@ -293,7 +292,7 @@ export const videos = [
   },
   {
     _id: "cxPs2tVNB4w",
-    title: "This is Why You Should Read Books - Benefits of Reading Books",
+    title: "This is Why You Should Read Books",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     creator: "Freedom Kingdom",
