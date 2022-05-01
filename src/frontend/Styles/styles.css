@@ -148,6 +148,10 @@ body {
   opacity: 0.6;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 /* nav */
 
 .logo {

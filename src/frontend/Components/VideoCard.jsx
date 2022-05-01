@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
-import { MdOutlineWatchLater, MdOutlinePlaylistAdd } from "react-icons/md";
+import {
+  MdOutlineWatchLater,
+  MdOutlinePlaylistAdd,
+  MdOutlineHistory,
+} from "react-icons/md";
 import { useData } from "../Contexts/data-context";
 import { useAuth } from "../Contexts/auth-context";
+import { useLocation } from "react-router-dom";
 
 export function getThumbnail(id) {
   return `https://i.ytimg.com/vi/${id}/hq720.jpg`;
@@ -14,12 +19,16 @@ export function getCreatorImg(id) {
 
 export function VideoCard({ video }) {
   const [isDropdown, setIsDropdown] = useState(false);
-  const { state, setWatchlaterList, deleteWatchlaterItem } = useData();
+  const { state, setWatchlaterList, deleteWatchlaterItem, deleteHistoryItem } =
+    useData();
   const { navigate } = useAuth();
+  const location = useLocation();
 
   const matchedWaterlaterItem = state.watchlaterList.find(
     (ele) => ele._id === video._id
   );
+
+  const historyItem = state.historyList.find((ele) => ele._id === video._id);
 
   return (
     <div
@@ -62,6 +71,18 @@ export function VideoCard({ video }) {
                 <MdOutlinePlaylistAdd size={18} />
                 <span className="margin-left-sm">Save to playlist</span>
               </p>
+              {location.pathname === "/history" ? (
+                <p
+                  className="flex-center dropdown-wrapper"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteHistoryItem(video._id);
+                  }}
+                >
+                  <MdOutlineHistory size={18} />
+                  <span className="margin-left-sm">Remove from history</span>
+                </p>
+              ) : null}
             </div>
           ) : null}
         </div>

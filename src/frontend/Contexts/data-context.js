@@ -35,6 +35,11 @@ function DataProvider({ children }) {
           ...state,
           watchlaterList: payload,
         };
+      case "SET_HISTORY_LIST":
+        return {
+          ...state,
+          historyList: payload,
+        };
     }
   }
 
@@ -42,6 +47,7 @@ function DataProvider({ children }) {
     videolist: [],
     category: [],
     watchlaterList: [],
+    historyList: [],
   };
 
   const [state, dispatch] = useReducer(dataReducer, initialState);
@@ -136,6 +142,92 @@ function DataProvider({ children }) {
     })();
   }
 
+  // history
+
+  function getHistoryList() {
+    if (isLoggedIn) {
+      (async function () {
+        try {
+          const historylist = await axios.get("/api/user/history", {
+            headers: {
+              authorization: token,
+            },
+          });
+          dispatch({
+            type: "SET_HISTORY_LIST",
+            payload: historylist.data.history,
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    }
+  }
+
+  function setHistoryList(video) {
+    if (isLoggedIn) {
+      (async function () {
+        try {
+          const response = await axios.post(
+            "/api/user/history",
+            { video },
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          );
+          dispatch({
+            type: "SET_HISTORY_LIST",
+            payload: response.data.history,
+          });
+        } catch (error) {
+          console.error("ERROR", error);
+        }
+      })();
+    } else {
+      navigate("/login");
+    }
+  }
+
+  function deleteHistoryItem(_id) {
+    (async function () {
+      try {
+        const response = await axios.delete(`/api/user/history/${_id}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        successToast("Removed from history");
+        dispatch({
+          type: "SET_HISTORY_LIST",
+          payload: response.data.history,
+        });
+      } catch (error) {
+        console.error("ERROR", error);
+      }
+    })();
+  }
+
+  function deleteAllHistoryItem() {
+    (async function () {
+      try {
+        const response = await axios.delete(`/api/user/history/all`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        successToast("History cleared");
+        dispatch({
+          type: "SET_HISTORY_LIST",
+          payload: response.data.history,
+        });
+      } catch (error) {
+        console.error("ERROR", error);
+      }
+    })();
+  }
+
   return (
     <DataContext.Provider
       value={{
@@ -145,6 +237,10 @@ function DataProvider({ children }) {
         getWatchlaterList,
         setWatchlaterList,
         deleteWatchlaterItem,
+        getHistoryList,
+        setHistoryList,
+        deleteHistoryItem,
+        deleteAllHistoryItem,
       }}
     >
       {children}

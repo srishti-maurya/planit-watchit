@@ -17,7 +17,7 @@ export function Nav() {
         </Link>
         <div className="navigation-tools">
           <div
-            className="flex-center theme-icon"
+            className="flex-center theme-icon cursor-pointer"
             onClick={() => setTheme(!theme)}
           >
             {theme ? <IoMoon size={25} /> : <IoSunny size={25} />}

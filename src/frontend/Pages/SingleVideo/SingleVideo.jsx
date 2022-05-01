@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useData } from "../../Contexts/data-context";
 import ReactPlayer from "react-player";
@@ -7,7 +7,10 @@ import {
   MdOutlinePlaylistPlay,
   MdThumbUpOffAlt,
   MdOutlineWatchLater,
+  MdWatchLater,
 } from "react-icons/md";
+import loader from "../../Assests/svg/loader.svg";
+import { useAuth } from "../../Contexts/auth-context";
 
 export function getVideoUrl(videoId) {
   return `https://www.youtube.com/watch?v=${videoId}`;
@@ -15,59 +18,102 @@ export function getVideoUrl(videoId) {
 
 export function SingleVideo() {
   const { videoId } = useParams();
-  const { state } = useData();
+  const {
+    state,
+    isLoader,
+    setWatchlaterList,
+    deleteWatchlaterItem,
+    setHistoryList,
+  } = useData();
+  const { token } = useAuth();
   const video = state.videolist?.find((each) => each._id === videoId);
+  const matchedWaterlaterItem = state.watchlaterList.find(
+    (ele) => ele._id === video._id
+  );
+
+  useEffect(() => {
+    setHistoryList(video);
+  }, [videoId, token, video]);
   return (
-    <div className="single-video-container">
-      <div className="video-container">
-        <ReactPlayer
-          playing
-          controls={true}
-          url={getVideoUrl(video._id)}
-          width="100%"
-          height="100%"
-        />
-        <div className="flex-center-col">
-          <div className="flex-center flex-space">
-            <div className="flex-center-col">
-              <div className="text-base card-heading font-regular margin-top-md">
-                {video.title}
-              </div>
-              <div className="text-sm color-text-grey">{video.views} views</div>
-            </div>
-            <div className="flex-center flex-gap-md">
-              <MdOutlinePlaylistPlay size={25} />
-              <MdThumbUpOffAlt size={25} />
-              <MdOutlineWatchLater size={25} />
-            </div>
-          </div>
-          <div className="horizontal-line"></div>
-          <div className="flex-center margin-top-md">
-            <img
-              src={getCreatorImg(video.creatorId)}
-              alt={video.title}
-              className="avatar"
+    <>
+      {isLoader ? (
+        <img src={loader} alt="loader" className="loader" />
+      ) : (
+        <div className="single-video-container">
+          <div className="video-container">
+            <ReactPlayer
+              playing
+              controls={true}
+              url={getVideoUrl(video._id)}
+              width="100%"
+              height="100%"
             />
-            <div className="margin-left-md">
-              <div className="text-base">{video.creator}</div>
-              <div className="text-sm color-text-grey">{video.description}</div>
+            <div className="flex-center-col">
+              <div className="flex-center flex-space">
+                <div className="flex-center-col">
+                  <div className="text-base card-heading font-regular margin-top-md">
+                    {video.title}
+                  </div>
+                  <div className="text-sm color-text-grey">
+                    {video.views} views
+                  </div>
+                </div>
+                <div className="flex-center flex-gap-md">
+                  <span className="cursor-pointer">
+                    <MdOutlinePlaylistPlay size={25} />
+                  </span>
+                  <span className="cursor-pointer">
+                    <MdThumbUpOffAlt size={25} />
+                  </span>
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => {
+                      {
+                        matchedWaterlaterItem
+                          ? deleteWatchlaterItem(video._id)
+                          : setWatchlaterList(video);
+                      }
+                    }}
+                  >
+                    {matchedWaterlaterItem ? (
+                      <MdWatchLater size={25} />
+                    ) : (
+                      <MdOutlineWatchLater size={25} />
+                    )}
+                  </span>
+                </div>
+              </div>
+              <div className="horizontal-line"></div>
+              <div className="flex-center margin-top-md">
+                <img
+                  src={getCreatorImg(video.creatorId)}
+                  alt={video.title}
+                  className="avatar"
+                />
+                <div className="margin-left-md">
+                  <div className="text-base">{video.creator}</div>
+                  <div className="text-sm color-text-grey">
+                    {video.description}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="notes-container">
+            <h4>Take Notes...</h4>
+            <input />
+            <textarea />
+            <div>
+              <button className="btn btn-sm btn-color-text-primary btn-cancel-note">
+                Cancel
+              </button>
+              <button className="btn btn-sm color-primary-outline chip">
+                Add Note
+              </button>
             </div>
           </div>
         </div>
-      </div>
-      <div className="notes-container">
-        <h4>Take Notes...</h4>
-        <input />
-        <textarea />
-        <div>
-          <button className="btn btn-sm btn-color-text-primary btn-cancel-note">
-            Cancel
-          </button>
-          <button className="btn btn-sm color-primary-outline chip">
-            Add Note
-          </button>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
