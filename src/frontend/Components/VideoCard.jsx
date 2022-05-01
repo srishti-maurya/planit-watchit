@@ -2,10 +2,12 @@ import { useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import { MdOutlineWatchLater, MdOutlinePlaylistAdd } from "react-icons/md";
 import { useData } from "../Contexts/data-context";
+import { useAuth } from "../Contexts/auth-context";
 
 export function getThumbnail(id) {
   return `https://i.ytimg.com/vi/${id}/hq720.jpg`;
 }
+
 export function getCreatorImg(id) {
   return `https://yt3.ggpht.com/ytc/${id}`;
 }
@@ -13,13 +15,17 @@ export function getCreatorImg(id) {
 export function VideoCard({ video }) {
   const [isDropdown, setIsDropdown] = useState(false);
   const { state, setWatchlaterList, deleteWatchlaterItem } = useData();
+  const { navigate } = useAuth();
 
   const matchedWaterlaterItem = state.watchlaterList.find(
     (ele) => ele._id === video._id
   );
 
   return (
-    <div className="card-container-vertical">
+    <div
+      className="card-container-vertical"
+      onClick={() => navigate(`/explore/${video._id}`)}
+    >
       <div className="thumbnail-container">
         <img
           src={getThumbnail(video._id)}
@@ -36,7 +42,8 @@ export function VideoCard({ video }) {
             <div className="dropdown-container">
               <p
                 className="flex-center dropdown-wrapper"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   {
                     matchedWaterlaterItem
                       ? deleteWatchlaterItem(video._id)

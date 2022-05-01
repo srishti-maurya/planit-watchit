@@ -7,6 +7,7 @@ import {
   LikedVideo,
   NotFound,
   Playlist,
+  SingleVideo,
   WatchLater,
 } from "../Pages";
 import { Login } from "../Pages/Auth/Login";
@@ -19,6 +20,7 @@ export function PageRoutes() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/explore/:videoId" element={<SingleVideo />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/signup" element={<Signup />} />
