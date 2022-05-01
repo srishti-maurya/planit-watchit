@@ -8,6 +8,7 @@ import {
   MdThumbUpOffAlt,
   MdOutlineWatchLater,
   MdWatchLater,
+  MdThumbUp,
 } from "react-icons/md";
 import loader from "../../Assests/svg/loader.svg";
 import { useAuth } from "../../Contexts/auth-context";
@@ -24,12 +25,15 @@ export function SingleVideo() {
     setWatchlaterList,
     deleteWatchlaterItem,
     setHistoryList,
+    setLikeList,
+    deleteLikeItem,
   } = useData();
   const { token } = useAuth();
   const video = state.videolist?.find((each) => each._id === videoId);
   const matchedWaterlaterItem = state.watchlaterList.find(
     (ele) => ele._id === video._id
   );
+  const matchedLikedItem = state.likeList.find((ele) => ele._id === video._id);
 
   useEffect(() => {
     setHistoryList(video);
@@ -62,8 +66,21 @@ export function SingleVideo() {
                   <span className="cursor-pointer">
                     <MdOutlinePlaylistPlay size={25} />
                   </span>
-                  <span className="cursor-pointer">
-                    <MdThumbUpOffAlt size={25} />
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => {
+                      {
+                        matchedLikedItem
+                          ? deleteLikeItem(video._id)
+                          : setLikeList(video);
+                      }
+                    }}
+                  >
+                    {matchedLikedItem ? (
+                      <MdThumbUp size={25} />
+                    ) : (
+                      <MdThumbUpOffAlt size={25} />
+                    )}
                   </span>
                   <span
                     className="cursor-pointer"

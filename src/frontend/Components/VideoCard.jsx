@@ -4,6 +4,7 @@ import {
   MdOutlineWatchLater,
   MdOutlinePlaylistAdd,
   MdOutlineHistory,
+  MdThumbUpOffAlt,
 } from "react-icons/md";
 import { useData } from "../Contexts/data-context";
 import { useAuth } from "../Contexts/auth-context";
@@ -19,8 +20,13 @@ export function getCreatorImg(id) {
 
 export function VideoCard({ video }) {
   const [isDropdown, setIsDropdown] = useState(false);
-  const { state, setWatchlaterList, deleteWatchlaterItem, deleteHistoryItem } =
-    useData();
+  const {
+    state,
+    setWatchlaterList,
+    deleteWatchlaterItem,
+    deleteHistoryItem,
+    deleteLikeItem,
+  } = useData();
   const { navigate } = useAuth();
   const location = useLocation();
 
@@ -81,6 +87,18 @@ export function VideoCard({ video }) {
                 >
                   <MdOutlineHistory size={18} />
                   <span className="margin-left-sm">Remove from history</span>
+                </p>
+              ) : null}
+              {location.pathname === "/likedvideo" ? (
+                <p
+                  className="flex-center dropdown-wrapper"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteLikeItem(video._id);
+                  }}
+                >
+                  <MdThumbUpOffAlt size={18} />
+                  <span className="margin-left-sm">Remove from liked</span>
                 </p>
               ) : null}
             </div>

@@ -40,6 +40,11 @@ function DataProvider({ children }) {
           ...state,
           historyList: payload,
         };
+      case "SET_LIKE_LIST":
+        return {
+          ...state,
+          likeList: payload,
+        };
     }
   }
 
@@ -48,6 +53,7 @@ function DataProvider({ children }) {
     category: [],
     watchlaterList: [],
     historyList: [],
+    likeList: [],
   };
 
   const [state, dispatch] = useReducer(dataReducer, initialState);
@@ -228,6 +234,74 @@ function DataProvider({ children }) {
     })();
   }
 
+  // like
+
+  function getLikeList() {
+    if (isLoggedIn) {
+      (async function () {
+        try {
+          const historylist = await axios.get("/api/user/likes", {
+            headers: {
+              authorization: token,
+            },
+          });
+          dispatch({
+            type: "SET_LIKE_LIST",
+            payload: historylist.data.likes,
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    }
+  }
+
+  function setLikeList(video) {
+    if (isLoggedIn) {
+      (async function () {
+        try {
+          const response = await axios.post(
+            "/api/user/likes",
+            { video },
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          );
+          successToast("Added to liked videos");
+          dispatch({
+            type: "SET_LIKE_LIST",
+            payload: response.data.likes,
+          });
+        } catch (error) {
+          console.error("ERROR", error);
+        }
+      })();
+    } else {
+      navigate("/login");
+    }
+  }
+
+  function deleteLikeItem(_id) {
+    (async function () {
+      try {
+        const response = await axios.delete(`/api/user/likes/${_id}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        successToast("Removed from liked videos");
+        dispatch({
+          type: "SET_LIKE_LIST",
+          payload: response.data.likes,
+        });
+      } catch (error) {
+        console.error("ERROR", error);
+      }
+    })();
+  }
+
   return (
     <DataContext.Provider
       value={{
@@ -241,6 +315,9 @@ function DataProvider({ children }) {
         setHistoryList,
         deleteHistoryItem,
         deleteAllHistoryItem,
+        getLikeList,
+        setLikeList,
+        deleteLikeItem,
       }}
     >
       {children}
