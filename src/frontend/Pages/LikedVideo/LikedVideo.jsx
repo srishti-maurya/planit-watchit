@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { VideoList } from "../../Components";
+import { Loader, VideoList } from "../../Components";
 import { useData } from "../../Contexts/data-context";
 
 export function LikedVideo() {
@@ -7,7 +7,9 @@ export function LikedVideo() {
   useEffect(() => getLikeList(), []);
   return (
     <>
-      {state.likeList.length < 1 ? (
+      {state.isLoader ? (
+        <Loader />
+      ) : state.likeList.length < 1 ? (
         <h3 className="margin-auto color-text-grey">No liked videos found.</h3>
       ) : (
         <div className="home-container">

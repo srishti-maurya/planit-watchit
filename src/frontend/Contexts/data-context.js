@@ -14,8 +14,6 @@ const DataContext = createContext();
 const useData = () => useContext(DataContext);
 
 function DataProvider({ children }) {
-  const [isLoader, setIsLoader] = useState(true);
-
   const { token, isLoggedIn, navigate } = useAuth();
 
   function dataReducer(state, { type, payload }) {
@@ -24,26 +22,42 @@ function DataProvider({ children }) {
         return {
           ...state,
           videolist: payload,
+          isLoader: false,
         };
       case "SET_CATEGORY":
         return {
           ...state,
           category: payload,
+          isLoader: false,
         };
       case "SET_WATCHLATER_LIST":
         return {
           ...state,
           watchlaterList: payload,
+          isLoader: false,
         };
       case "SET_HISTORY_LIST":
         return {
           ...state,
           historyList: payload,
+          isLoader: false,
         };
       case "SET_LIKE_LIST":
         return {
           ...state,
           likeList: payload,
+          isLoader: false,
+        };
+      case "SET_LOADER":
+        return {
+          ...state,
+          isLoader: true,
+        };
+      case "SET_ERROR":
+        return {
+          ...state,
+          error: payload,
+          isLoader: false,
         };
     }
   }
@@ -54,6 +68,8 @@ function DataProvider({ children }) {
     watchlaterList: [],
     historyList: [],
     likeList: [],
+    isLoader: false,
+    error: "",
   };
 
   const [state, dispatch] = useReducer(dataReducer, initialState);
@@ -62,9 +78,11 @@ function DataProvider({ children }) {
     () =>
       (async function () {
         try {
+          dispatch({
+            type: "SET_LOADER",
+          });
           const categoryResponse = await axios.get("/api/categories");
           const response = await axios.get("/api/videos");
-          setIsLoader(false);
           dispatch({
             type: "SET_VIDEOLIST",
             payload: response.data.videos,
@@ -75,6 +93,10 @@ function DataProvider({ children }) {
           });
         } catch (error) {
           console.error(error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
         }
       })(),
     []
@@ -86,6 +108,9 @@ function DataProvider({ children }) {
     if (isLoggedIn) {
       (async function () {
         try {
+          dispatch({
+            type: "SET_LOADER",
+          });
           const watchlaterResponse = await axios.get("/api/user/watchlater", {
             headers: {
               authorization: token,
@@ -97,6 +122,10 @@ function DataProvider({ children }) {
           });
         } catch (error) {
           console.error(error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
         }
       })();
     }
@@ -106,6 +135,9 @@ function DataProvider({ children }) {
     if (isLoggedIn) {
       (async function () {
         try {
+          dispatch({
+            type: "SET_LOADER",
+          });
           const response = await axios.post(
             "/api/user/watchlater",
             { video },
@@ -122,6 +154,10 @@ function DataProvider({ children }) {
           });
         } catch (error) {
           console.error("ERROR", error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
         }
       })();
     } else {
@@ -132,6 +168,9 @@ function DataProvider({ children }) {
   function deleteWatchlaterItem(_id) {
     (async function () {
       try {
+        dispatch({
+          type: "SET_LOADER",
+        });
         const response = await axios.delete(`/api/user/watchlater/${_id}`, {
           headers: {
             authorization: token,
@@ -144,6 +183,10 @@ function DataProvider({ children }) {
         });
       } catch (error) {
         console.error("ERROR", error);
+        dispatch({
+          type: "SET_ERROR",
+          payload: error.response.data.errors[0],
+        });
       }
     })();
   }
@@ -154,6 +197,9 @@ function DataProvider({ children }) {
     if (isLoggedIn) {
       (async function () {
         try {
+          dispatch({
+            type: "SET_LOADER",
+          });
           const historylist = await axios.get("/api/user/history", {
             headers: {
               authorization: token,
@@ -165,15 +211,22 @@ function DataProvider({ children }) {
           });
         } catch (error) {
           console.error(error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
         }
       })();
     }
   }
 
   function setHistoryList(video) {
-    if (isLoggedIn) {
+    if (isLoggedIn && video) {
       (async function () {
         try {
+          dispatch({
+            type: "SET_LOADER",
+          });
           const response = await axios.post(
             "/api/user/history",
             { video },
@@ -189,6 +242,10 @@ function DataProvider({ children }) {
           });
         } catch (error) {
           console.error("ERROR", error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
         }
       })();
     } else {
@@ -199,6 +256,9 @@ function DataProvider({ children }) {
   function deleteHistoryItem(_id) {
     (async function () {
       try {
+        dispatch({
+          type: "SET_LOADER",
+        });
         const response = await axios.delete(`/api/user/history/${_id}`, {
           headers: {
             authorization: token,
@@ -211,6 +271,10 @@ function DataProvider({ children }) {
         });
       } catch (error) {
         console.error("ERROR", error);
+        dispatch({
+          type: "SET_ERROR",
+          payload: error.response.data.errors[0],
+        });
       }
     })();
   }
@@ -218,6 +282,9 @@ function DataProvider({ children }) {
   function deleteAllHistoryItem() {
     (async function () {
       try {
+        dispatch({
+          type: "SET_LOADER",
+        });
         const response = await axios.delete(`/api/user/history/all`, {
           headers: {
             authorization: token,
@@ -230,6 +297,10 @@ function DataProvider({ children }) {
         });
       } catch (error) {
         console.error("ERROR", error);
+        dispatch({
+          type: "SET_ERROR",
+          payload: error.response.data.errors[0],
+        });
       }
     })();
   }
@@ -240,6 +311,9 @@ function DataProvider({ children }) {
     if (isLoggedIn) {
       (async function () {
         try {
+          dispatch({
+            type: "SET_LOADER",
+          });
           const historylist = await axios.get("/api/user/likes", {
             headers: {
               authorization: token,
@@ -251,6 +325,10 @@ function DataProvider({ children }) {
           });
         } catch (error) {
           console.error(error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
         }
       })();
     }
@@ -260,6 +338,9 @@ function DataProvider({ children }) {
     if (isLoggedIn) {
       (async function () {
         try {
+          dispatch({
+            type: "SET_LOADER",
+          });
           const response = await axios.post(
             "/api/user/likes",
             { video },
@@ -276,6 +357,10 @@ function DataProvider({ children }) {
           });
         } catch (error) {
           console.error("ERROR", error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
         }
       })();
     } else {
@@ -286,6 +371,9 @@ function DataProvider({ children }) {
   function deleteLikeItem(_id) {
     (async function () {
       try {
+        dispatch({
+          type: "SET_LOADER",
+        });
         const response = await axios.delete(`/api/user/likes/${_id}`, {
           headers: {
             authorization: token,
@@ -298,6 +386,10 @@ function DataProvider({ children }) {
         });
       } catch (error) {
         console.error("ERROR", error);
+        dispatch({
+          type: "SET_ERROR",
+          payload: error.response.data.errors[0],
+        });
       }
     })();
   }
@@ -306,8 +398,6 @@ function DataProvider({ children }) {
     <DataContext.Provider
       value={{
         state,
-        isLoader,
-        setIsLoader,
         getWatchlaterList,
         setWatchlaterList,
         deleteWatchlaterItem,

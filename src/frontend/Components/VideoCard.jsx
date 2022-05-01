@@ -34,8 +34,6 @@ export function VideoCard({ video }) {
     (ele) => ele._id === video._id
   );
 
-  const historyItem = state.historyList.find((ele) => ele._id === video._id);
-
   return (
     <div
       className="card-container-vertical"

@@ -12,6 +12,7 @@ import {
 } from "react-icons/md";
 import loader from "../../Assests/svg/loader.svg";
 import { useAuth } from "../../Contexts/auth-context";
+import { Loader } from "../../Components";
 
 export function getVideoUrl(videoId) {
   return `https://www.youtube.com/watch?v=${videoId}`;
@@ -21,7 +22,6 @@ export function SingleVideo() {
   const { videoId } = useParams();
   const {
     state,
-    isLoader,
     setWatchlaterList,
     deleteWatchlaterItem,
     setHistoryList,
@@ -38,11 +38,12 @@ export function SingleVideo() {
   useEffect(() => {
     setHistoryList(video);
   }, [videoId, token, video]);
+
   return (
     <>
-      {isLoader ? (
-        <img src={loader} alt="loader" className="loader" />
-      ) : (
+      {state.isLoader ? (
+        <Loader />
+      ) : video ? (
         <div className="single-video-container">
           <div className="video-container">
             <ReactPlayer
@@ -130,7 +131,7 @@ export function SingleVideo() {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </>
   );
 }

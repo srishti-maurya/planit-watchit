@@ -1,13 +1,12 @@
 import React from "react";
-import { Topbar, VideoList } from "../../Components";
-import loader from "../../Assests/svg/loader.svg";
+import { Loader, Topbar, VideoList } from "../../Components";
 import { useData } from "../../Contexts/data-context";
 export function Home() {
-  const { isLoader, state } = useData();
+  const { state } = useData();
   return (
     <>
-      {isLoader ? (
-        <img src={loader} alt="loader" className="loader" />
+      {state.isLoader ? (
+        <Loader />
       ) : (
         <div className="home-container">
           <Topbar />

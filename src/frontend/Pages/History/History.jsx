@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { VideoList } from "../../Components";
+import { Loader, VideoList } from "../../Components";
 import { useData } from "../../Contexts/data-context";
 
 export function History() {
@@ -8,7 +8,9 @@ export function History() {
 
   return (
     <>
-      {state.historyList.length < 1 ? (
+      {state.isLoader ? (
+        <Loader />
+      ) : state.historyList.length < 1 ? (
         <h3 className="margin-auto color-text-grey">No history found.</h3>
       ) : (
         <div className="home-container">
