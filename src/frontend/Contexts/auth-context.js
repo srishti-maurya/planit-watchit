@@ -39,7 +39,7 @@ export function AuthProvider({ children }) {
       navigate("/");
       setLoginInput({ email: "", password: "" });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -64,7 +64,7 @@ export function AuthProvider({ children }) {
         cnfpassword: "",
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

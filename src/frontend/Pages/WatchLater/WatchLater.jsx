@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { VideoList } from "../../Components";
+import { Loader, VideoList } from "../../Components";
 import { useData } from "../../Contexts/data-context";
 
 export function WatchLater() {
@@ -8,7 +8,9 @@ export function WatchLater() {
 
   return (
     <>
-      {state.watchlaterList.length < 1 ? (
+      {state.isLoader ? (
+        <Loader />
+      ) : state.watchlaterList.length < 1 ? (
         <h3 className="margin-auto color-text-grey">No videos added.</h3>
       ) : (
         <div className="home-container">

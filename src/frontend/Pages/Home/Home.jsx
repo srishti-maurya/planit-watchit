@@ -1,18 +1,18 @@
 import React from "react";
-import { Topbar, VideoList } from "../../Components";
-import loader from "../../Assests/svg/loader.svg";
+import { Loader, Topbar, VideoList } from "../../Components";
 import { useData } from "../../Contexts/data-context";
 export function Home() {
-  const { isLoader, state } = useData();
+  const { state, filteredData } = useData();
+
   return (
     <>
-      {isLoader ? (
-        <img src={loader} alt="loader" className="loader" />
+      {state.isLoader ? (
+        <Loader />
       ) : (
         <div className="home-container">
           <Topbar />
           <div className="videolist-container">
-            <VideoList list={state.videolist} />
+            <VideoList list={filteredData} />
           </div>
         </div>
       )}
