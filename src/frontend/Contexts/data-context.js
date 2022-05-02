@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useReducer,
-} from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import axios from "axios";
 import { useAuth } from "./auth-context";
 import { successToast } from "../Utils/toasts";
@@ -12,6 +6,56 @@ import { successToast } from "../Utils/toasts";
 const DataContext = createContext();
 
 const useData = () => useContext(DataContext);
+
+export function filterByCategory(
+  data,
+  AUDIOBOOK,
+  SUMMARY,
+  RECOMMENDATIONS,
+  BENEFITS,
+  ALL_CATEGORY
+) {
+  let filteredlist = [];
+  if (
+    AUDIOBOOK === false &&
+    SUMMARY === false &&
+    RECOMMENDATIONS === false &&
+    BENEFITS === false &&
+    ALL_CATEGORY === false
+  ) {
+    // console.log(data);
+    return data;
+  }
+
+  if (AUDIOBOOK) {
+    return data.filter((item) => item.category === "audiobook");
+    // let newList = data.filter((item) => item.category === "audiobook");
+    // filteredlist.push(...newList);
+  }
+
+  if (SUMMARY) {
+    return data.filter((item) => item.category === "summary");
+    // let newList = data.filter((item) => item.category === "summary");
+    // filteredlist.push(...newList);
+  }
+
+  if (RECOMMENDATIONS) {
+    return data.filter((item) => item.category === "recommendations");
+    // let newList = data.filter((item) => item.category === "recommendations");
+    // filteredlist.push(...newList);
+  }
+
+  if (BENEFITS) {
+    return data.filter((item) => item.category === "benefits");
+    // let newList = data.filter((item) => item.category === "benefits");
+    // filteredlist.push(...newList);
+  }
+  if (ALL_CATEGORY) {
+    return data;
+    // filteredlist = data;
+  }
+  return filteredlist;
+}
 
 function DataProvider({ children }) {
   const { token, isLoggedIn, navigate } = useAuth();
@@ -27,7 +71,7 @@ function DataProvider({ children }) {
       case "SET_CATEGORY":
         return {
           ...state,
-          category: payload,
+          categoryList: payload,
           isLoader: false,
         };
       case "SET_WATCHLATER_LIST":
@@ -59,20 +103,91 @@ function DataProvider({ children }) {
           error: payload,
           isLoader: false,
         };
+      case "AUDIOBOOK":
+        return {
+          ...state,
+          category: {
+            AUDIOBOOK: true,
+            SUMMARY: false,
+            RECOMMENDATIONS: false,
+            BENEFITS: false,
+            ALL_CATEGORY: false,
+          },
+        };
+      case "SUMMARY":
+        return {
+          ...state,
+          category: {
+            AUDIOBOOK: false,
+            SUMMARY: true,
+            RECOMMENDATIONS: false,
+            BENEFITS: false,
+            ALL_CATEGORY: false,
+          },
+        };
+      case "RECOMMENDATIONS":
+        return {
+          ...state,
+          category: {
+            AUDIOBOOK: false,
+            SUMMARY: false,
+            RECOMMENDATIONS: true,
+            BENEFITS: false,
+            ALL_CATEGORY: false,
+          },
+        };
+      case "BENEFITS":
+        return {
+          ...state,
+          category: {
+            AUDIOBOOK: false,
+            SUMMARY: false,
+            RECOMMENDATIONS: false,
+            BENEFITS: true,
+            ALL_CATEGORY: false,
+          },
+        };
+      case "ALL":
+        return {
+          ...state,
+          category: {
+            AUDIOBOOK: false,
+            SUMMARY: false,
+            RECOMMENDATIONS: false,
+            BENEFITS: false,
+            ALL_CATEGORY: true,
+          },
+        };
     }
   }
 
   const initialState = {
     videolist: [],
-    category: [],
+    categoryList: [],
     watchlaterList: [],
     historyList: [],
     likeList: [],
     isLoader: false,
     error: "",
+    category: {
+      AUDIOBOOK: false,
+      SUMMARY: false,
+      RECOMMENDATIONS: false,
+      BENEFITS: false,
+      ALL_CATEGORY: false,
+    },
   };
 
   const [state, dispatch] = useReducer(dataReducer, initialState);
+
+  const filteredData = filterByCategory(
+    state.videolist,
+    state.category.AUDIOBOOK,
+    state.category.SUMMARY,
+    state.category.RECOMMENDATIONS,
+    state.category.BENEFITS,
+    state.category.ALL_CATEGORY
+  );
 
   useEffect(
     () =>
@@ -398,6 +513,8 @@ function DataProvider({ children }) {
     <DataContext.Provider
       value={{
         state,
+        dispatch,
+        filteredData,
         getWatchlaterList,
         setWatchlaterList,
         deleteWatchlaterItem,

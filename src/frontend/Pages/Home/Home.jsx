@@ -2,7 +2,8 @@ import React from "react";
 import { Loader, Topbar, VideoList } from "../../Components";
 import { useData } from "../../Contexts/data-context";
 export function Home() {
-  const { state } = useData();
+  const { state, filteredData } = useData();
+
   return (
     <>
       {state.isLoader ? (
@@ -11,7 +12,8 @@ export function Home() {
         <div className="home-container">
           <Topbar />
           <div className="videolist-container">
-            <VideoList list={state.videolist} />
+            {/* <VideoList list={state.videolist} /> */}
+            <VideoList list={filteredData} />
           </div>
         </div>
       )}

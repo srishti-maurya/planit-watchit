@@ -2,13 +2,18 @@ import React from "react";
 import { useData } from "../Contexts/data-context";
 
 export function Topbar() {
-  const { state } = useData();
+  const { state, dispatch } = useData();
   return (
     <div className="topbar-container">
-      {state.category.map((ele) => (
+      {state.categoryList.map((ele) => (
         <button
-          className="btn btn-sm color-secondary-outline chip"
+          className={`btn btn-sm color-secondary-outline chip`}
           key={ele._id}
+          onClick={() =>
+            dispatch({
+              type: ele.categoryName.toUpperCase(),
+            })
+          }
         >
           {ele.categoryName}
         </button>

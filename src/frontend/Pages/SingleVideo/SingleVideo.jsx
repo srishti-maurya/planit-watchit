@@ -10,7 +10,6 @@ import {
   MdWatchLater,
   MdThumbUp,
 } from "react-icons/md";
-import loader from "../../Assests/svg/loader.svg";
 import { useAuth } from "../../Contexts/auth-context";
 import { Loader } from "../../Components";
 
