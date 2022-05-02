@@ -13,7 +13,7 @@ export function filterByCategory(
   SUMMARY,
   RECOMMENDATIONS,
   BENEFITS,
-  ALL_CATEGORY
+  ALL
 ) {
   let filteredlist = [];
   if (
@@ -21,7 +21,7 @@ export function filterByCategory(
     SUMMARY === false &&
     RECOMMENDATIONS === false &&
     BENEFITS === false &&
-    ALL_CATEGORY === false
+    ALL === false
   ) {
     return data;
   }
@@ -41,7 +41,7 @@ export function filterByCategory(
   if (BENEFITS) {
     return data.filter((item) => item.category === "benefits");
   }
-  if (ALL_CATEGORY) {
+  if (ALL) {
     return data;
   }
   return filteredlist;
@@ -101,7 +101,7 @@ function DataProvider({ children }) {
             SUMMARY: false,
             RECOMMENDATIONS: false,
             BENEFITS: false,
-            ALL_CATEGORY: false,
+            ALL: false,
           },
         };
       case "SUMMARY":
@@ -112,7 +112,7 @@ function DataProvider({ children }) {
             SUMMARY: true,
             RECOMMENDATIONS: false,
             BENEFITS: false,
-            ALL_CATEGORY: false,
+            ALL: false,
           },
         };
       case "RECOMMENDATIONS":
@@ -123,7 +123,7 @@ function DataProvider({ children }) {
             SUMMARY: false,
             RECOMMENDATIONS: true,
             BENEFITS: false,
-            ALL_CATEGORY: false,
+            ALL: false,
           },
         };
       case "BENEFITS":
@@ -134,7 +134,7 @@ function DataProvider({ children }) {
             SUMMARY: false,
             RECOMMENDATIONS: false,
             BENEFITS: true,
-            ALL_CATEGORY: false,
+            ALL: false,
           },
         };
       case "ALL":
@@ -145,7 +145,7 @@ function DataProvider({ children }) {
             SUMMARY: false,
             RECOMMENDATIONS: false,
             BENEFITS: false,
-            ALL_CATEGORY: true,
+            ALL: true,
           },
         };
     }
@@ -164,7 +164,7 @@ function DataProvider({ children }) {
       SUMMARY: false,
       RECOMMENDATIONS: false,
       BENEFITS: false,
-      ALL_CATEGORY: false,
+      ALL: true,
     },
   };
 
@@ -176,7 +176,7 @@ function DataProvider({ children }) {
     state.category.SUMMARY,
     state.category.RECOMMENDATIONS,
     state.category.BENEFITS,
-    state.category.ALL_CATEGORY
+    state.category.ALL
   );
 
   useEffect(

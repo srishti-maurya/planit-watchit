@@ -7,7 +7,7 @@ function Button({ ele }) {
   return (
     <button
       className={`btn btn-sm color-secondary-outline chip ${
-        isActive ? "btn-active" : ""
+        state.category[ele.categoryName.toUpperCase()] ? "btn-active" : ""
       }`}
       key={ele._id}
       onClick={() => {
