@@ -23,36 +23,26 @@ export function filterByCategory(
     BENEFITS === false &&
     ALL_CATEGORY === false
   ) {
-    // console.log(data);
     return data;
   }
 
   if (AUDIOBOOK) {
     return data.filter((item) => item.category === "audiobook");
-    // let newList = data.filter((item) => item.category === "audiobook");
-    // filteredlist.push(...newList);
   }
 
   if (SUMMARY) {
     return data.filter((item) => item.category === "summary");
-    // let newList = data.filter((item) => item.category === "summary");
-    // filteredlist.push(...newList);
   }
 
   if (RECOMMENDATIONS) {
     return data.filter((item) => item.category === "recommendations");
-    // let newList = data.filter((item) => item.category === "recommendations");
-    // filteredlist.push(...newList);
   }
 
   if (BENEFITS) {
     return data.filter((item) => item.category === "benefits");
-    // let newList = data.filter((item) => item.category === "benefits");
-    // filteredlist.push(...newList);
   }
   if (ALL_CATEGORY) {
     return data;
-    // filteredlist = data;
   }
   return filteredlist;
 }

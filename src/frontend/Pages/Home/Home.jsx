@@ -12,7 +12,6 @@ export function Home() {
         <div className="home-container">
           <Topbar />
           <div className="videolist-container">
-            {/* <VideoList list={state.videolist} /> */}
             <VideoList list={filteredData} />
           </div>
         </div>

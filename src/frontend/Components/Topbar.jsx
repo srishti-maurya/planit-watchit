@@ -1,22 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { useData } from "../Contexts/data-context";
+
+function Button({ ele }) {
+  const { dispatch, state } = useData();
+  const [isActive, setIsActive] = useState(false);
+  return (
+    <button
+      className={`btn btn-sm color-secondary-outline chip ${
+        isActive ? "btn-active" : ""
+      }`}
+      key={ele._id}
+      onClick={() => {
+        dispatch({
+          type: ele.categoryName.toUpperCase(),
+        });
+        setIsActive(!isActive);
+      }}
+    >
+      {ele.categoryName}
+    </button>
+  );
+}
 
 export function Topbar() {
   const { state, dispatch } = useData();
+
   return (
     <div className="topbar-container">
       {state.categoryList.map((ele) => (
-        <button
-          className={`btn btn-sm color-secondary-outline chip`}
-          key={ele._id}
-          onClick={() =>
-            dispatch({
-              type: ele.categoryName.toUpperCase(),
-            })
-          }
-        >
-          {ele.categoryName}
-        </button>
+        <Button ele={ele} key={ele._id} />
       ))}
     </div>
   );
