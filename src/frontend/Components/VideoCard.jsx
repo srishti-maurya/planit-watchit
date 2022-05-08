@@ -26,6 +26,9 @@ export function VideoCard({ video }) {
     deleteWatchlaterItem,
     deleteHistoryItem,
     deleteLikeItem,
+    playlistModal,
+    setPlaylistModal,
+    setCurrSelectedVideo,
   } = useData();
   const { navigate } = useAuth();
   const location = useLocation();
@@ -71,7 +74,14 @@ export function VideoCard({ video }) {
                     : "Save to watch later"}
                 </span>
               </p>
-              <p className="flex-center dropdown-wrapper">
+              <p
+                className="flex-center dropdown-wrapper"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setPlaylistModal(!playlistModal);
+                  setCurrSelectedVideo(video);
+                }}
+              >
                 <MdOutlinePlaylistAdd size={18} />
                 <span className="margin-left-sm">Save to playlist</span>
               </p>

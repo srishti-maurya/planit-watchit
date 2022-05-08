@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import axios from "axios";
 import { useAuth } from "./auth-context";
 import { successToast } from "../Utils/toasts";
@@ -49,6 +55,8 @@ export function filterByCategory(
 
 function DataProvider({ children }) {
   const { token, isLoggedIn, navigate } = useAuth();
+  const [playlistModal, setPlaylistModal] = useState(false);
+  const [currSelectedVideo, setCurrSelectedVideo] = useState({});
 
   function dataReducer(state, { type, payload }) {
     switch (type) {
@@ -80,6 +88,18 @@ function DataProvider({ children }) {
         return {
           ...state,
           likeList: payload,
+          isLoader: false,
+        };
+      case "SET_PLAYLIST_LIST":
+        return {
+          ...state,
+          playlist: payload,
+          isLoader: false,
+        };
+      case "SET_PLAYLIST_ITEM":
+        return {
+          ...state,
+          playlistItem: payload,
           isLoader: false,
         };
       case "SET_LOADER":
@@ -157,6 +177,8 @@ function DataProvider({ children }) {
     watchlaterList: [],
     historyList: [],
     likeList: [],
+    playlist: [],
+    playlistItem: [],
     isLoader: false,
     error: "",
     category: {
@@ -499,12 +521,199 @@ function DataProvider({ children }) {
     })();
   }
 
+  // playlist
+
+  function getAllPlaylist() {
+    if (isLoggedIn) {
+      (async function () {
+        try {
+          dispatch({
+            type: "SET_LOADER",
+          });
+          const playlists = await axios.get("/api/user/playlists", {
+            headers: {
+              authorization: token,
+            },
+          });
+          dispatch({
+            type: "SET_PLAYLIST_LIST",
+            payload: playlists.data.playlists,
+          });
+        } catch (error) {
+          console.error(error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
+        }
+      })();
+    }
+  }
+
+  function setNewPlaylist(newPlaylist) {
+    if (isLoggedIn) {
+      (async function () {
+        try {
+          dispatch({
+            type: "SET_LOADER",
+          });
+          const response = await axios.post(
+            "/api/user/playlists",
+            {
+              playlist: { title: newPlaylist },
+            },
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          );
+          successToast("Playlist created");
+          dispatch({
+            type: "SET_PLAYLIST_LIST",
+            payload: response.data.playlists,
+          });
+        } catch (error) {
+          console.error("ERROR", error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
+        }
+      })();
+    } else {
+      navigate("/login");
+    }
+  }
+
+  function deletePlaylist(_id) {
+    (async function () {
+      try {
+        dispatch({
+          type: "SET_LOADER",
+        });
+        const response = await axios.delete(`/api/user/playlists/${_id}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        successToast("Playlist deleted");
+        dispatch({
+          type: "SET_PLAYLIST_LIST",
+          payload: response.data.playlists,
+        });
+      } catch (error) {
+        console.error("ERROR", error);
+        dispatch({
+          type: "SET_ERROR",
+          payload: error.response.data.errors[0],
+        });
+      }
+    })();
+  }
+
+  function getPlaylistItem({ _id }) {
+    if (isLoggedIn) {
+      (async function () {
+        try {
+          dispatch({
+            type: "SET_LOADER",
+          });
+          const playlists = await axios.get(`/api/user/playlists/${_id}`, {
+            headers: {
+              authorization: token,
+            },
+          });
+          dispatch({
+            type: "SET_PLAYLIST_ITEM",
+            payload: playlists.data.playlist,
+          });
+        } catch (error) {
+          console.error(error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
+        }
+      })();
+    }
+  }
+
+  function setPlaylistItem(video, playlist) {
+    if (isLoggedIn) {
+      (async function () {
+        try {
+          dispatch({
+            type: "SET_LOADER",
+          });
+          const playlists = await axios.post(
+            `/api/user/playlists/${playlist._id}`,
+            {
+              video,
+            },
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          );
+          successToast("Added to playlist");
+          dispatch({
+            type: "SET_PLAYLIST_ITEM",
+            payload: playlists.data.playlist,
+          });
+        } catch (error) {
+          console.error(error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
+        }
+      })();
+    }
+  }
+
+  function deletePlaylistItem(video, playlist) {
+    if (isLoggedIn) {
+      (async function () {
+        try {
+          dispatch({
+            type: "SET_LOADER",
+          });
+          const playlists = await axios.delete(
+            `/api/user/playlists/${playlist._id}/${video._id}`,
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          );
+          successToast("Deleted from playlist");
+          dispatch({
+            type: "SET_PLAYLIST_ITEM",
+            payload: playlists.data.playlist,
+          });
+        } catch (error) {
+          console.error(error);
+          dispatch({
+            type: "SET_ERROR",
+            payload: error.response.data.errors[0],
+          });
+        }
+      })();
+    }
+  }
+
   return (
     <DataContext.Provider
       value={{
         state,
         dispatch,
         filteredData,
+        playlistModal,
+        currSelectedVideo,
+        setCurrSelectedVideo,
+        setPlaylistModal,
         getWatchlaterList,
         setWatchlaterList,
         deleteWatchlaterItem,
@@ -515,6 +724,12 @@ function DataProvider({ children }) {
         getLikeList,
         setLikeList,
         deleteLikeItem,
+        getAllPlaylist,
+        setNewPlaylist,
+        deletePlaylist,
+        getPlaylistItem,
+        setPlaylistItem,
+        deletePlaylistItem,
       }}
     >
       {children}
