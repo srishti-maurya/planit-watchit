@@ -90,16 +90,18 @@ function DataProvider({ children }) {
           likeList: payload,
           isLoader: false,
         };
-      case "SET_PLAYLIST_LIST":
+      case "SET_PLAYLIST":
         return {
           ...state,
           playlist: payload,
           isLoader: false,
         };
-      case "SET_PLAYLIST_ITEM":
+      case "UPDATE_PLAYLIST":
         return {
           ...state,
-          playlistItem: payload,
+          playlist: [...state.playlist].map((singlePlaylist) =>
+            singlePlaylist._id === payload._id ? payload : singlePlaylist
+          ),
           isLoader: false,
         };
       case "SET_LOADER":
@@ -178,7 +180,6 @@ function DataProvider({ children }) {
     historyList: [],
     likeList: [],
     playlist: [],
-    playlistItem: [],
     isLoader: false,
     error: "",
     category: {
@@ -351,9 +352,6 @@ function DataProvider({ children }) {
     if (isLoggedIn && video) {
       (async function () {
         try {
-          dispatch({
-            type: "SET_LOADER",
-          });
           const response = await axios.post(
             "/api/user/history",
             { video },
@@ -465,9 +463,6 @@ function DataProvider({ children }) {
     if (isLoggedIn) {
       (async function () {
         try {
-          dispatch({
-            type: "SET_LOADER",
-          });
           const response = await axios.post(
             "/api/user/likes",
             { video },
@@ -498,9 +493,6 @@ function DataProvider({ children }) {
   function deleteLikeItem(_id) {
     (async function () {
       try {
-        dispatch({
-          type: "SET_LOADER",
-        });
         const response = await axios.delete(`/api/user/likes/${_id}`, {
           headers: {
             authorization: token,
@@ -536,7 +528,7 @@ function DataProvider({ children }) {
             },
           });
           dispatch({
-            type: "SET_PLAYLIST_LIST",
+            type: "SET_PLAYLIST",
             payload: playlists.data.playlists,
           });
         } catch (error) {
@@ -554,9 +546,6 @@ function DataProvider({ children }) {
     if (isLoggedIn) {
       (async function () {
         try {
-          dispatch({
-            type: "SET_LOADER",
-          });
           const response = await axios.post(
             "/api/user/playlists",
             {
@@ -570,7 +559,7 @@ function DataProvider({ children }) {
           );
           successToast("Playlist created");
           dispatch({
-            type: "SET_PLAYLIST_LIST",
+            type: "SET_PLAYLIST",
             payload: response.data.playlists,
           });
         } catch (error) {
@@ -589,9 +578,6 @@ function DataProvider({ children }) {
   function deletePlaylist(_id) {
     (async function () {
       try {
-        dispatch({
-          type: "SET_LOADER",
-        });
         const response = await axios.delete(`/api/user/playlists/${_id}`, {
           headers: {
             authorization: token,
@@ -599,7 +585,7 @@ function DataProvider({ children }) {
         });
         successToast("Playlist deleted");
         dispatch({
-          type: "SET_PLAYLIST_LIST",
+          type: "SET_PLAYLIST",
           payload: response.data.playlists,
         });
       } catch (error) {
@@ -612,40 +598,10 @@ function DataProvider({ children }) {
     })();
   }
 
-  function getPlaylistItem({ _id }) {
-    if (isLoggedIn) {
-      (async function () {
-        try {
-          dispatch({
-            type: "SET_LOADER",
-          });
-          const playlists = await axios.get(`/api/user/playlists/${_id}`, {
-            headers: {
-              authorization: token,
-            },
-          });
-          dispatch({
-            type: "SET_PLAYLIST_ITEM",
-            payload: playlists.data.playlist,
-          });
-        } catch (error) {
-          console.error(error);
-          dispatch({
-            type: "SET_ERROR",
-            payload: error.response.data.errors[0],
-          });
-        }
-      })();
-    }
-  }
-
   function setPlaylistItem(video, playlist) {
     if (isLoggedIn) {
       (async function () {
         try {
-          dispatch({
-            type: "SET_LOADER",
-          });
           const playlists = await axios.post(
             `/api/user/playlists/${playlist._id}`,
             {
@@ -659,7 +615,7 @@ function DataProvider({ children }) {
           );
           successToast("Added to playlist");
           dispatch({
-            type: "SET_PLAYLIST_ITEM",
+            type: "UPDATE_PLAYLIST",
             payload: playlists.data.playlist,
           });
         } catch (error) {
@@ -677,9 +633,6 @@ function DataProvider({ children }) {
     if (isLoggedIn) {
       (async function () {
         try {
-          dispatch({
-            type: "SET_LOADER",
-          });
           const playlists = await axios.delete(
             `/api/user/playlists/${playlist._id}/${video._id}`,
             {
@@ -690,7 +643,7 @@ function DataProvider({ children }) {
           );
           successToast("Deleted from playlist");
           dispatch({
-            type: "SET_PLAYLIST_ITEM",
+            type: "UPDATE_PLAYLIST",
             payload: playlists.data.playlist,
           });
         } catch (error) {
@@ -727,7 +680,6 @@ function DataProvider({ children }) {
         getAllPlaylist,
         setNewPlaylist,
         deletePlaylist,
-        getPlaylistItem,
         setPlaylistItem,
         deletePlaylistItem,
       }}
