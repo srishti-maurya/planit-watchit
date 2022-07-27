@@ -9,14 +9,8 @@ import {
 import { useData } from "../Contexts/data-context";
 import { useAuth } from "../Contexts/auth-context";
 import { useLocation } from "react-router-dom";
-
-export function getThumbnail(id) {
-  return `https://i.ytimg.com/vi/${id}/hq720.jpg`;
-}
-
-export function getCreatorImg(id) {
-  return `https://yt3.ggpht.com/ytc/${id}`;
-}
+import { getCreatorImg } from "../Utils/getCreatorImg";
+import { getThumbnail } from "../Utils/getThumbnail";
 
 export function VideoCard({ video }) {
   const [isDropdown, setIsDropdown] = useState(false);
@@ -46,7 +40,7 @@ export function VideoCard({ video }) {
         <img
           src={getThumbnail(video._id)}
           alt={video.title}
-          className="img-responsive video-thumbnail"
+          className="img-responsive"
         />
         <div
           className="dots-container"

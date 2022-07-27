@@ -42,6 +42,7 @@ export function VideoList({ list }) {
                     <>
                       <label className="flex-center" key={list._id}>
                         <input
+                          className="checkbox-playlist-title"
                           type="checkbox"
                           checked={videoInPlaylist ? true : false}
                           onChange={() => {
@@ -69,6 +70,7 @@ export function VideoList({ list }) {
                       onClick={() => {
                         setPlaylistInput("");
                         setNewPlaylist(playlistInput);
+                        setDisplayInput(!displayInput);
                       }}
                     >
                       create

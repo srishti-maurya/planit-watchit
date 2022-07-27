@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useData } from "../../Contexts/data-context";
 import ReactPlayer from "react-player";
-import { getCreatorImg } from "../../Components/VideoCard";
+import { getCreatorImg } from "../../Utils/getCreatorImg.js";
 import {
   MdOutlinePlaylistPlay,
   MdThumbUpOffAlt,
@@ -12,10 +12,7 @@ import {
 } from "react-icons/md";
 import { useAuth } from "../../Contexts/auth-context";
 import { Loader } from "../../Components";
-
-export function getVideoUrl(videoId) {
-  return `https://www.youtube.com/watch?v=${videoId}`;
-}
+import { getVideoUrl } from "../../Utils/getVideoUrl.js";
 
 export function SingleVideo() {
   const { videoId } = useParams();
