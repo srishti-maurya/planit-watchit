@@ -4,10 +4,10 @@ import {
   useEffect,
   useReducer,
   useState,
-} from "react";
-import axios from "axios";
-import { useAuth } from "./auth-context";
-import { successToast } from "../Utils/toasts";
+} from 'react';
+import axios from 'axios';
+import { useAuth } from './auth-context';
+import { successToast } from '../Utils/toasts';
 
 const DataContext = createContext();
 
@@ -33,19 +33,19 @@ export function filterByCategory(
   }
 
   if (AUDIOBOOK) {
-    return data.filter((item) => item.category === "audiobook");
+    return data.filter((item) => item.category === 'audiobook');
   }
 
   if (SUMMARY) {
-    return data.filter((item) => item.category === "summary");
+    return data.filter((item) => item.category === 'summary');
   }
 
   if (RECOMMENDATIONS) {
-    return data.filter((item) => item.category === "recommendations");
+    return data.filter((item) => item.category === 'recommendations');
   }
 
   if (BENEFITS) {
-    return data.filter((item) => item.category === "benefits");
+    return data.filter((item) => item.category === 'benefits');
   }
   if (ALL) {
     return data;
@@ -60,43 +60,43 @@ function DataProvider({ children }) {
 
   function dataReducer(state, { type, payload }) {
     switch (type) {
-      case "SET_VIDEOLIST":
+      case 'SET_VIDEOLIST':
         return {
           ...state,
           videolist: payload,
           isLoader: false,
         };
-      case "SET_CATEGORY":
+      case 'SET_CATEGORY':
         return {
           ...state,
           categoryList: payload,
           isLoader: false,
         };
-      case "SET_WATCHLATER_LIST":
+      case 'SET_WATCHLATER_LIST':
         return {
           ...state,
           watchlaterList: payload,
           isLoader: false,
         };
-      case "SET_HISTORY_LIST":
+      case 'SET_HISTORY_LIST':
         return {
           ...state,
           historyList: payload,
           isLoader: false,
         };
-      case "SET_LIKE_LIST":
+      case 'SET_LIKE_LIST':
         return {
           ...state,
           likeList: payload,
           isLoader: false,
         };
-      case "SET_PLAYLIST":
+      case 'SET_PLAYLIST':
         return {
           ...state,
           playlist: payload,
           isLoader: false,
         };
-      case "UPDATE_PLAYLIST":
+      case 'UPDATE_PLAYLIST':
         return {
           ...state,
           playlist: [...state.playlist].map((singlePlaylist) =>
@@ -104,18 +104,18 @@ function DataProvider({ children }) {
           ),
           isLoader: false,
         };
-      case "SET_LOADER":
+      case 'SET_LOADER':
         return {
           ...state,
           isLoader: true,
         };
-      case "SET_ERROR":
+      case 'SET_ERROR':
         return {
           ...state,
           error: payload,
           isLoader: false,
         };
-      case "AUDIOBOOK":
+      case 'AUDIOBOOK':
         return {
           ...state,
           category: {
@@ -126,7 +126,7 @@ function DataProvider({ children }) {
             ALL: false,
           },
         };
-      case "SUMMARY":
+      case 'SUMMARY':
         return {
           ...state,
           category: {
@@ -137,7 +137,7 @@ function DataProvider({ children }) {
             ALL: false,
           },
         };
-      case "RECOMMENDATIONS":
+      case 'RECOMMENDATIONS':
         return {
           ...state,
           category: {
@@ -148,7 +148,7 @@ function DataProvider({ children }) {
             ALL: false,
           },
         };
-      case "BENEFITS":
+      case 'BENEFITS':
         return {
           ...state,
           category: {
@@ -159,7 +159,7 @@ function DataProvider({ children }) {
             ALL: false,
           },
         };
-      case "ALL":
+      case 'ALL':
         return {
           ...state,
           category: {
@@ -181,7 +181,7 @@ function DataProvider({ children }) {
     likeList: [],
     playlist: [],
     isLoader: false,
-    error: "",
+    error: '',
     category: {
       AUDIOBOOK: false,
       SUMMARY: false,
@@ -207,22 +207,22 @@ function DataProvider({ children }) {
       (async function () {
         try {
           dispatch({
-            type: "SET_LOADER",
+            type: 'SET_LOADER',
           });
-          const categoryResponse = await axios.get("/api/categories");
-          const response = await axios.get("/api/videos");
+          const categoryResponse = await axios.get('/api/categories');
+          const response = await axios.get('/api/videos');
           dispatch({
-            type: "SET_VIDEOLIST",
+            type: 'SET_VIDEOLIST',
             payload: response.data.videos,
           });
           dispatch({
-            type: "SET_CATEGORY",
+            type: 'SET_CATEGORY',
             payload: categoryResponse.data.categories,
           });
         } catch (error) {
           console.error(error);
           dispatch({
-            type: "SET_ERROR",
+            type: 'SET_ERROR',
             payload: error.response.data.errors[0],
           });
         }
@@ -237,21 +237,21 @@ function DataProvider({ children }) {
       (async function () {
         try {
           dispatch({
-            type: "SET_LOADER",
+            type: 'SET_LOADER',
           });
-          const watchlaterResponse = await axios.get("/api/user/watchlater", {
+          const watchlaterResponse = await axios.get('/api/user/watchlater', {
             headers: {
               authorization: token,
             },
           });
           dispatch({
-            type: "SET_WATCHLATER_LIST",
+            type: 'SET_WATCHLATER_LIST',
             payload: watchlaterResponse.data.watchlater,
           });
         } catch (error) {
           console.error(error);
           dispatch({
-            type: "SET_ERROR",
+            type: 'SET_ERROR',
             payload: error.response.data.errors[0],
           });
         }
@@ -264,10 +264,10 @@ function DataProvider({ children }) {
       (async function () {
         try {
           dispatch({
-            type: "SET_LOADER",
+            type: 'SET_LOADER',
           });
           const response = await axios.post(
-            "/api/user/watchlater",
+            '/api/user/watchlater',
             { video },
             {
               headers: {
@@ -275,21 +275,21 @@ function DataProvider({ children }) {
               },
             }
           );
-          successToast("Added to watchlater");
+          successToast('Added to watchlater');
           dispatch({
-            type: "SET_WATCHLATER_LIST",
+            type: 'SET_WATCHLATER_LIST',
             payload: response.data.watchlater,
           });
         } catch (error) {
-          console.error("ERROR", error);
+          console.error('ERROR', error);
           dispatch({
-            type: "SET_ERROR",
+            type: 'SET_ERROR',
             payload: error.response.data.errors[0],
           });
         }
       })();
     } else {
-      navigate("/login");
+      navigate('/login');
     }
   }
 
@@ -297,22 +297,22 @@ function DataProvider({ children }) {
     (async function () {
       try {
         dispatch({
-          type: "SET_LOADER",
+          type: 'SET_LOADER',
         });
         const response = await axios.delete(`/api/user/watchlater/${_id}`, {
           headers: {
             authorization: token,
           },
         });
-        successToast("Removed from watchlater");
+        successToast('Removed from watchlater');
         dispatch({
-          type: "SET_WATCHLATER_LIST",
+          type: 'SET_WATCHLATER_LIST',
           payload: response.data.watchlater,
         });
       } catch (error) {
-        console.error("ERROR", error);
+        console.error('ERROR', error);
         dispatch({
-          type: "SET_ERROR",
+          type: 'SET_ERROR',
           payload: error.response.data.errors[0],
         });
       }
@@ -326,21 +326,21 @@ function DataProvider({ children }) {
       (async function () {
         try {
           dispatch({
-            type: "SET_LOADER",
+            type: 'SET_LOADER',
           });
-          const historylist = await axios.get("/api/user/history", {
+          const historylist = await axios.get('/api/user/history', {
             headers: {
               authorization: token,
             },
           });
           dispatch({
-            type: "SET_HISTORY_LIST",
+            type: 'SET_HISTORY_LIST',
             payload: historylist.data.history,
           });
         } catch (error) {
           console.error(error);
           dispatch({
-            type: "SET_ERROR",
+            type: 'SET_ERROR',
             payload: error.response.data.errors[0],
           });
         }
@@ -353,7 +353,7 @@ function DataProvider({ children }) {
       (async function () {
         try {
           const response = await axios.post(
-            "/api/user/history",
+            '/api/user/history',
             { video },
             {
               headers: {
@@ -362,19 +362,19 @@ function DataProvider({ children }) {
             }
           );
           dispatch({
-            type: "SET_HISTORY_LIST",
+            type: 'SET_HISTORY_LIST',
             payload: response.data.history,
           });
         } catch (error) {
-          console.error("ERROR", error);
+          console.error('ERROR', error);
           dispatch({
-            type: "SET_ERROR",
+            type: 'SET_ERROR',
             payload: error.response.data.errors[0],
           });
         }
       })();
     } else {
-      navigate("/login");
+      navigate('/login');
     }
   }
 
@@ -382,22 +382,22 @@ function DataProvider({ children }) {
     (async function () {
       try {
         dispatch({
-          type: "SET_LOADER",
+          type: 'SET_LOADER',
         });
         const response = await axios.delete(`/api/user/history/${_id}`, {
           headers: {
             authorization: token,
           },
         });
-        successToast("Removed from history");
+        successToast('Removed from history');
         dispatch({
-          type: "SET_HISTORY_LIST",
+          type: 'SET_HISTORY_LIST',
           payload: response.data.history,
         });
       } catch (error) {
-        console.error("ERROR", error);
+        console.error('ERROR', error);
         dispatch({
-          type: "SET_ERROR",
+          type: 'SET_ERROR',
           payload: error.response.data.errors[0],
         });
       }
@@ -408,22 +408,22 @@ function DataProvider({ children }) {
     (async function () {
       try {
         dispatch({
-          type: "SET_LOADER",
+          type: 'SET_LOADER',
         });
         const response = await axios.delete(`/api/user/history/all`, {
           headers: {
             authorization: token,
           },
         });
-        successToast("History cleared");
+        successToast('History cleared');
         dispatch({
-          type: "SET_HISTORY_LIST",
+          type: 'SET_HISTORY_LIST',
           payload: response.data.history,
         });
       } catch (error) {
-        console.error("ERROR", error);
+        console.error('ERROR', error);
         dispatch({
-          type: "SET_ERROR",
+          type: 'SET_ERROR',
           payload: error.response.data.errors[0],
         });
       }
@@ -437,21 +437,21 @@ function DataProvider({ children }) {
       (async function () {
         try {
           dispatch({
-            type: "SET_LOADER",
+            type: 'SET_LOADER',
           });
-          const historylist = await axios.get("/api/user/likes", {
+          const historylist = await axios.get('/api/user/likes', {
             headers: {
               authorization: token,
             },
           });
           dispatch({
-            type: "SET_LIKE_LIST",
+            type: 'SET_LIKE_LIST',
             payload: historylist.data.likes,
           });
         } catch (error) {
           console.error(error);
           dispatch({
-            type: "SET_ERROR",
+            type: 'SET_ERROR',
             payload: error.response.data.errors[0],
           });
         }
@@ -464,7 +464,7 @@ function DataProvider({ children }) {
       (async function () {
         try {
           const response = await axios.post(
-            "/api/user/likes",
+            '/api/user/likes',
             { video },
             {
               headers: {
@@ -472,21 +472,21 @@ function DataProvider({ children }) {
               },
             }
           );
-          successToast("Added to liked videos");
+          successToast('Added to liked videos');
           dispatch({
-            type: "SET_LIKE_LIST",
+            type: 'SET_LIKE_LIST',
             payload: response.data.likes,
           });
         } catch (error) {
-          console.error("ERROR", error);
+          console.error('ERROR', error);
           dispatch({
-            type: "SET_ERROR",
+            type: 'SET_ERROR',
             payload: error.response.data.errors[0],
           });
         }
       })();
     } else {
-      navigate("/login");
+      navigate('/login');
     }
   }
 
@@ -498,15 +498,15 @@ function DataProvider({ children }) {
             authorization: token,
           },
         });
-        successToast("Removed from liked videos");
+        successToast('Removed from liked videos');
         dispatch({
-          type: "SET_LIKE_LIST",
+          type: 'SET_LIKE_LIST',
           payload: response.data.likes,
         });
       } catch (error) {
-        console.error("ERROR", error);
+        console.error('ERROR', error);
         dispatch({
-          type: "SET_ERROR",
+          type: 'SET_ERROR',
           payload: error.response.data.errors[0],
         });
       }
@@ -520,21 +520,21 @@ function DataProvider({ children }) {
       (async function () {
         try {
           dispatch({
-            type: "SET_LOADER",
+            type: 'SET_LOADER',
           });
-          const playlists = await axios.get("/api/user/playlists", {
+          const playlists = await axios.get('/api/user/playlists', {
             headers: {
               authorization: token,
             },
           });
           dispatch({
-            type: "SET_PLAYLIST",
+            type: 'SET_PLAYLIST',
             payload: playlists.data.playlists,
           });
         } catch (error) {
           console.error(error);
           dispatch({
-            type: "SET_ERROR",
+            type: 'SET_ERROR',
             payload: error.response.data.errors[0],
           });
         }
@@ -547,7 +547,7 @@ function DataProvider({ children }) {
       (async function () {
         try {
           const response = await axios.post(
-            "/api/user/playlists",
+            '/api/user/playlists',
             {
               playlist: { title: newPlaylist },
             },
@@ -557,21 +557,21 @@ function DataProvider({ children }) {
               },
             }
           );
-          successToast("Playlist created");
+          successToast('Playlist created');
           dispatch({
-            type: "SET_PLAYLIST",
+            type: 'SET_PLAYLIST',
             payload: response.data.playlists,
           });
         } catch (error) {
-          console.error("ERROR", error);
+          console.error('ERROR', error);
           dispatch({
-            type: "SET_ERROR",
+            type: 'SET_ERROR',
             payload: error.response.data.errors[0],
           });
         }
       })();
     } else {
-      navigate("/login");
+      navigate('/login');
     }
   }
 
@@ -583,15 +583,16 @@ function DataProvider({ children }) {
             authorization: token,
           },
         });
-        successToast("Playlist deleted");
+        successToast('Playlist deleted');
         dispatch({
-          type: "SET_PLAYLIST",
+          type: 'SET_PLAYLIST',
           payload: response.data.playlists,
         });
+        navigate('/playlist');
       } catch (error) {
-        console.error("ERROR", error);
+        console.error('ERROR', error);
         dispatch({
-          type: "SET_ERROR",
+          type: 'SET_ERROR',
           payload: error.response.data.errors[0],
         });
       }
@@ -613,15 +614,15 @@ function DataProvider({ children }) {
               },
             }
           );
-          successToast("Added to playlist");
+          successToast('Added to playlist');
           dispatch({
-            type: "UPDATE_PLAYLIST",
+            type: 'UPDATE_PLAYLIST',
             payload: playlists.data.playlist,
           });
         } catch (error) {
           console.error(error);
           dispatch({
-            type: "SET_ERROR",
+            type: 'SET_ERROR',
             payload: error.response.data.errors[0],
           });
         }
@@ -641,15 +642,15 @@ function DataProvider({ children }) {
               },
             }
           );
-          successToast("Deleted from playlist");
+          successToast('Deleted from playlist');
           dispatch({
-            type: "UPDATE_PLAYLIST",
+            type: 'UPDATE_PLAYLIST',
             payload: playlists.data.playlist,
           });
         } catch (error) {
           console.error(error);
           dispatch({
-            type: "SET_ERROR",
+            type: 'SET_ERROR',
             payload: error.response.data.errors[0],
           });
         }

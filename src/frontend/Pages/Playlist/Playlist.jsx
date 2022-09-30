@@ -3,22 +3,21 @@ import { useData } from '../../Contexts/data-context';
 import { getThumbnail } from '../../Utils/getThumbnail';
 import { MdPlaylistPlay } from 'react-icons/md';
 import { Loader } from '../../Components';
+import { useAuth } from '../../Contexts/auth-context';
 
 export function PlaylistVideoCard({ video, playlist }) {
+  const { navigate } = useAuth();
   return (
-    <div className="card-container-vertical">
+    <div
+      className="card-container-vertical"
+      onClick={() => navigate(`/yourPlaylist/${playlist._id}`)}
+    >
       <div className="playlist-thumbnail-title flex-center flex-space">
         <MdPlaylistPlay size={25} />
         <p className="margin-left-md"> {playlist.title}</p>
       </div>
       {playlist.videos.length === 0 ? (
-        <div
-          style={{
-            height: 140,
-            backgroundColor: 'black',
-          }}
-          className="playlist-thumbnail-img"
-        ></div>
+        <div className="playlist-thumbnail-img bg-black-md"></div>
       ) : (
         <img
           src={getThumbnail(video._id)}
