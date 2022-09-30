@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Loader, VideoList } from "../../Components";
-import { useData } from "../../Contexts/data-context";
+import React, { useEffect } from 'react';
+import { Loader, VideoList } from '../../Components';
+import { useData } from '../../Contexts/data-context';
 
 export function History() {
   const { state, getHistoryList, deleteAllHistoryItem } = useData();
@@ -16,10 +16,7 @@ export function History() {
         <div className="home-container">
           <div className="flex-center flex-space">
             <h3 className="text-center color-text-grey">History</h3>
-            <button
-              className="btn btn-sm chip"
-              onClick={() => deleteAllHistoryItem()}
-            >
+            <button className="btn btn-sm chip" onClick={deleteAllHistoryItem}>
               Clear History
             </button>
           </div>

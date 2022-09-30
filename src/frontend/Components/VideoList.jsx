@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { VideoCard } from "./VideoCard";
-import { MdClose } from "react-icons/md";
-import { useData } from "../Contexts/data-context";
+import React, { useState } from 'react';
+import { VideoCard } from './VideoCard';
+import { MdClose } from 'react-icons/md';
+import { useData } from '../Contexts/data-context';
 
 export function VideoList({ list }) {
-  const [playlistInput, setPlaylistInput] = useState("");
+  const [playlistInput, setPlaylistInput] = useState('');
   const [displayInput, setDisplayInput] = useState(false);
   const {
     setNewPlaylist,
@@ -39,21 +39,19 @@ export function VideoList({ list }) {
                       playlistVideo._id == currSelectedVideo._id
                   );
                   return (
-                    <>
-                      <label className="flex-center" key={list._id}>
-                        <input
-                          className="checkbox-playlist-title"
-                          type="checkbox"
-                          checked={videoInPlaylist ? true : false}
-                          onChange={() => {
-                            videoInPlaylist
-                              ? deletePlaylistItem(currSelectedVideo, list)
-                              : setPlaylistItem(currSelectedVideo, list);
-                          }}
-                        />
-                        {list.title}
-                      </label>
-                    </>
+                    <label className="flex-center" key={list._id}>
+                      <input
+                        className="checkbox-playlist-title"
+                        type="checkbox"
+                        checked={videoInPlaylist ? true : false}
+                        onChange={() => {
+                          videoInPlaylist
+                            ? deletePlaylistItem(currSelectedVideo, list)
+                            : setPlaylistItem(currSelectedVideo, list);
+                        }}
+                      />
+                      {list.title}
+                    </label>
                   );
                 })}
               </div>
@@ -68,7 +66,7 @@ export function VideoList({ list }) {
                     <button
                       className="btn btn-sm chip flex-center flex-justify-center btn-full-width"
                       onClick={() => {
-                        setPlaylistInput("");
+                        setPlaylistInput('');
                         setNewPlaylist(playlistInput);
                         setDisplayInput(!displayInput);
                       }}

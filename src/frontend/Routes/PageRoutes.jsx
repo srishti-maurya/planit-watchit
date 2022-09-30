@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 import {
   History,
@@ -9,11 +9,12 @@ import {
   Playlist,
   SingleVideo,
   WatchLater,
-} from "../Pages";
-import { Login } from "../Pages/Auth/Login";
-import { Logout } from "../Pages/Auth/Logout";
-import { Signup } from "../Pages/Auth/Signup";
-import { PrivateRoute } from "./PrivateRoute";
+} from '../Pages';
+import { Login } from '../Pages/Auth/Login';
+import { Logout } from '../Pages/Auth/Logout';
+import { Signup } from '../Pages/Auth/Signup';
+import SinglePlaylist from '../Pages/SinglePlaylist/SinglePlaylist';
+import { PrivateRoute } from './PrivateRoute';
 
 export function PageRoutes() {
   return (
@@ -29,6 +30,10 @@ export function PageRoutes() {
           <Route path="/history" element={<History />} />
           <Route path="/likedvideo" element={<LikedVideo />} />
           <Route path="/playlist" element={<Playlist />} />
+          <Route
+            path="/yourPlaylist/:playlistId"
+            element={<SinglePlaylist />}
+          />
           <Route path="/watchlater" element={<WatchLater />} />
         </Route>
       </Routes>
