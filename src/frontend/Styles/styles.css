@@ -367,14 +367,14 @@ body {
 }
 
 .bg-black-md {
-  height: 140;
-  background-color: 'black';
+  height: 22vh;
+  background-color: black;
 }
 
 .bg-black-sm {
-  height: 120;
-  width: 240;
-  background-color: 'black';
+  height: 22vh;
+  width: 14vw;
+  background-color: black;
   margin: ' 0.7rem';
 }
 
